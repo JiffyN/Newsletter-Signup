@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
@@ -28,13 +29,11 @@ app.post("/", function(req, res) {
       }
     ]
   };
-  const rawDataMailChimp = fs.readFileSync('mailChimpInfo.json');
-  const mailchimpData = JSON.parse(rawDataMailChimp);
   const jsonData = JSON.stringify(data);
-  const url = "https://us1.api.mailchimp.com/3.0/lists/" + mailchimpData.listId;
+  const url = "https://us1.api.mailchimp.com/3.0/lists/" + process.env.LIST_ID;
   const options = {
     method: "POST",
-    auth: mailchimpData.auth
+    auth: process.env.AUTH
   };
   const request = https.request(url, options, function(response) {
     response.on("data", function(data) {
